@@ -12,57 +12,43 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@RequiredArgsConstructor
 @Configuration
-public class HelloJonConfiguration {
+@RequiredArgsConstructor
+public class DBJobConfiguration {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
 
     @Bean
-    public Job helloJob(){
-        return jobBuilderFactory.get("helloJob")
-                .start(helloStep1())
-                .next(helloStep2())
+    public Job job(){
+        return jobBuilderFactory.get("job")
+                .start(step1())
+                .next(step2())
+                .build();
+    }
+    @Bean
+    public Step step1() {
+        return stepBuilderFactory.get("step1")
+                .tasklet(new Tasklet() {
+                    @Override
+                    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+                        System.out.println("step1 was excuted");
+                        return RepeatStatus.FINISHED;
+                    }
+                })
                 .build();
     }
 
     @Bean
-    public Step helloStep1() {
-        return stepBuilderFactory.get("helloStep1")
-                //익명 클래스 생성
+    public Step step2() {
+        return stepBuilderFactory.get("step2")
                 .tasklet(new Tasklet() {
                     @Override
                     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-
-                        System.out.println(" =========================");
-                        System.out.println(" >> Hello Spring Batch!!");
-                        System.out.println(" =========================");
-
-                        return RepeatStatus.FINISHED; // 배치 마지막 상태
-                    }
-                })
-                .build()
-                ;
-    }
-
-    @Bean
-    public Step helloStep2() {
-        return stepBuilderFactory.get("helloStep2")
-                //익명 클래스 생성
-                .tasklet(new Tasklet() {
-                    @Override
-                    public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-
-                        System.out.println(" =========================");
-                        System.out.println(" >> step2 was executed");
-                        System.out.println(" =========================");
-
+                        System.out.println("step2 was excuted");
                         return RepeatStatus.FINISHED;
                     }
                 })
-                .build()
-                ;
+                .build();
     }
-
 }
