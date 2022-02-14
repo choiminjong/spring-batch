@@ -16,6 +16,8 @@ spring:
   batch:
     jdbc:
       initialize-schema: embedded
+    job:
+        enabled: false
 
 ---
 spring:
@@ -27,7 +29,10 @@ spring:
       jdbc-url: jdbc:mysql://127.0.0.1:3306/springbatch?useSSL=false&characterEncoding=UTF-8&serverTimezone=UTC
       username: root
       password: root
+      #password : Vlvkahqkdlf#elvmf(3
       driver-class-name: com.mysql.cj.jdbc.Driver
   batch:
     jdbc:
       initialize-schema: always
+    job:
+      enabled: false
