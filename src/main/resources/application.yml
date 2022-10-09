@@ -15,7 +15,7 @@ spring:
     jdbc:
       initialize-schema: always
     job:
-      enabled: true
+      enabled: false
 
   jpa:
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
